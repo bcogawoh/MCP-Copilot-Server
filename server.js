@@ -6,21 +6,18 @@ app.use(bodyParser.json());
 
 const PORT = 5000;
 
+/* === AI-Driven Code Execution === */
 app.post("/execute-code", async (req, res) => {
-    const { codeSnippet, language } = req.body;
-    res.json({ success: true, output: `Executing ${language} code...` });
+    const { codeSnippet } = req.body;
+    res.json({ success: true, output: `Executing code...` });
 });
 
-app.post("/code-suggestions", async (req, res) => {
-    const { problemStatement } = req.body;
-    res.json({ success: true, suggestions: ["Refactor loop", "Use async processing"] });
-});
-
+/* === AI Debugging === */
 app.post("/debug-code", async (req, res) => {
     const { codeSnippet } = req.body;
     res.json({ success: true, debugReport: ["Syntax error in line 5", "Optimize recursion"] });
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 MCP Server for Copilot running on port ${PORT}`);
+    console.log(`🚀 MCP Server running on port ${PORT}`);
 });
