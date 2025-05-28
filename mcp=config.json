@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "Copilot-Agent": {
+      "command": "node",
+      "args": ["server.js"],
+      "tools": ["execute-code.js", "debug-code.js"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
