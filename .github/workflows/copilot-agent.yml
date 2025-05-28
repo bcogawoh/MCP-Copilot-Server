@@ -1,12 +1,12 @@
-name: "MCP Copilot Automation"
+name: "MCP Copilot Agent"
 on:
-  workflow_dispatch: # Allows manual execution
+  workflow_dispatch:  # Allows manual execution
   push:
     branches:
       - main  # Runs when code is pushed to `main`
 
 jobs:
-  run-mcp-tests:
+  run-mcp-analysis:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -23,9 +23,21 @@ jobs:
       - name: Start MCP Server
         run: npm start & sleep 5
 
-      - name: Execute Test Code via API
+      - name: Execute Code via MCP API
         run: |
-          curl -X POST http://localhost:5000/execute-code -H "Content-Type: application/json" -d '{"codeSnippet":"console.log(\"MCP Test Successful!\");"}'
+          curl -X POST http://localhost:5000/execute-code -H "Content-Type: application/json" -d '{"codeSnippet":"console.log(\"MCP Execution Successful!\");"}'
 
-      - name: Verify Logs
-        run: cat mcp-log.txt
+      - name: AI Debugging Analysis
+        run: |
+          curl -X POST http://localhost:5000/debug-code -H "Content-Type: application/json" -d '{"codeSnippet":"for(let i=0; i < 10; i++) { console.log(i); }"}' > debug-results.json
+
+      - name: Create GitHub Issue for Debugging Results
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: debug-results.json
+
+      - name: Web3 Smart Contract Execution Test (Solidity)
+        run: |
+          curl -X POST http://localhost:5000/web3-execute -H "Content-Type: application/json" -d '{"contractCode":"pragma solidity ^0.8.0; contract Test { function run() public pure returns(string memory) { return \"Smart Contract Executed!\"; } }"}'
