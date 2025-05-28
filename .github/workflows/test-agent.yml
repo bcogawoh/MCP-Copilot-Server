@@ -18,7 +18,7 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: npm install axios ethers
+        run: npm install axios ethers dotenv
 
       - name: Start MCP Server
         run: npm start & sleep 5
