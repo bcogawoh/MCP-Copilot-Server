@@ -25,3 +25,7 @@ jobs:
 
       - name: Run Automated MCP Tests
         run: node test-mcp.js
+
+      - name: Log Error on Failure
+        if: failure()
+        run: echo "❌ MCP Test Failed! Check workflow logs for debugging."
